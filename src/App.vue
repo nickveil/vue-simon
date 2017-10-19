@@ -60,12 +60,19 @@ export default {
     return {
       longest: 0,
       sequence: ['red','blank', 'green','blank', 'yellow','blank', 'blue','blank'],
-      taps: '',
+      taps: [],
       lights: [ 'red', 'green', 'yellow', 'blue' ],
       isActive:false,
       currentLight:"",
-      iterationCounter:0
+      iterationCounter:0,
+      answer:""
     }
+  },
+  watch:{
+    playerClicks: function(guess){
+      this.captureTap();
+    }
+
   },
   computed: {
     current: function() {
@@ -80,7 +87,7 @@ export default {
       //this.sequence = []; // will need to make active and reset sequence in the return to blank
       this.addToSequence();
       this.playSequence(this.sequence);
-      this.startTimer();
+      //this.startTimer();
     },
     chooseRandomLight: function() {
       var index = Math.floor(Math.random() * 4);
@@ -119,128 +126,96 @@ export default {
       this.currentLight=self.sequence[iteration]; 
       // self.isActive=false;
     },
-    captureTap: function(color) {
 
-      this.taps=color;
-      
-
-      console.log("Sequence_color: ",this.sequence[this.iterationCounter]," Tapped_color: ",this.taps);
-      console.log("iterationCounter",this.iterationCounter);
-
-      if(this.sequence[this.iterationCounter]=== this.taps){
-        this.iterationCounter+=2;
-        
-      }else{
-        console.log("wrong Answer");
-      };
-
-      // this.addToSequence();
-      // this.playSequence(this.sequence);
-
-      
-
-      //  while(var i<this.sequence.length){
-
-      //   console.log("CaptureTap forloop: ",i);
-
-      //   console.log("thisTap: ",this.tap,"thisSequence[i]: ",this.sequence[i])
-      //   if(this.tap===this.sequence[i]){
-      //     i++;
-      //     console.log("CaptureTap forloop: ",i);
-      //     break;
-      //   }else{
-      //     console.log('Wrong Guess');
-
-      //   }
-      // }
-    
-      
-
-     
-      console.log(this.taps);
-      // log key strokes
-
-      // bring in sequence 
-      // compare key strokes to next sequence element
-
-
-    },
-    startTimer: function() {
-    }
+    captureTap: _.debounce(
+      function(color) {
+        if(this.taps.length<this.sequence.length && this.taps === 'blank'){
+          this.answer="wrong";
+          return;
+        }
+        this.answer="right";
+      },
+        5000
+    )
   }
 }
+
+  //   startTimer: function() {
+  //   }
+  // }
+
 </script>
 
 <style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-#simon {
-  padding: 20px;
-}
-#controls {
-  padding-bottom: 20px;
-}
-#status {
-  padding-bottom: 20px;
-}
-.row {
-}
-.col {
-  display: inline-block;
-}
-.start {
-  padding: 10px;
-  font-size: 18px;
-}
-.light {
-  margin: 20px;
-  border: 1px solid #000;
-}
-#red {
-  height: 100px;
-  width: 100px;
-  background: #E53A40;
-  opacity: 0.1;
-}
-#yellow {
-  height: 100px;
-  width: 100px;
-  background: #EFDC05;
-  opacity: 0.1;
-}
-#green {
-  height: 100px;
-  width: 100px;
-  background: #75D701;
-  opacity: 0.1;
-}
-#blue {
-  height: 100px;
-  width: 100px;
-  background: #30A9DE;
-  opacity: 0.1;
-}
-.bright {
-  opacity: 1.0 !important;
-}
+  #app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 60px;
+  }
+  h1, h2 {
+    font-weight: normal;
+  }
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  li {
+    display: inline-block;
+    margin: 0 10px;
+  }
+  a {
+    color: #42b983;
+  }
+  #simon {
+    padding: 20px;
+  }
+  #controls {
+    padding-bottom: 20px;
+  }
+  #status {
+    padding-bottom: 20px;
+  }
+  .row {
+  }
+  .col {
+    display: inline-block;
+  }
+  .start {
+    padding: 10px;
+    font-size: 18px;
+  }
+  .light {
+    margin: 20px;
+    border: 1px solid #000;
+  }
+  #red {
+    height: 100px;
+    width: 100px;
+    background: #E53A40;
+    opacity: 0.1;
+  }
+  #yellow {
+    height: 100px;
+    width: 100px;
+    background: #EFDC05;
+    opacity: 0.1;
+  }
+  #green {
+    height: 100px;
+    width: 100px;
+    background: #75D701;
+    opacity: 0.1;
+  }
+  #blue {
+    height: 100px;
+    width: 100px;
+    background: #30A9DE;
+    opacity: 0.1;
+  }
+  .bright {
+    opacity: 1.0 !important;
+  }
 </style>
