@@ -10,13 +10,33 @@
       </div>
 
       <div class="row">
-        <div id="green" v-bind:class="{'bright':isActive && currentLight==='green'}" class="light col" v-on:click="captureTap('green')"></div>
-        <div id="red" v-bind:class="{'bright':isActive && currentLight==='red'}" class="light col" v-on:click="captureTap('red')"></div>
+        <div 
+          id="green" 
+          v-bind:class="{'bright':isActive && currentLight==='green'}" 
+          class="light col" 
+          v-on:click="captureTap('green')"> 
+        </div>
+        <div 
+          id="red" 
+          v-bind:class="{'bright':isActive && currentLight==='red'}" 
+          class="light col" 
+          v-on:click="captureTap('red')">
+        </div>
       </div>
 
       <div class="row">
-        <div id="yellow" v-bind:class="{'bright':isActive && currentLight==='yellow'}" class="light col" v-on:click="captureTap('yellow')"></div>
-        <div id="blue" v-bind:class="{'bright':isActive && currentLight==='blue'}" class="light col" v-on:click="captureTap('blue')"></div>
+        <div 
+          id="yellow" 
+          v-bind:class="{'bright':isActive && currentLight==='yellow'}" 
+          class="light col" 
+          v-on:click="captureTap('yellow')">
+        </div>
+        <div 
+          id="blue" 
+          v-bind:class="{'bright':isActive && currentLight==='blue'}" 
+          class="light col" 
+          v-on:click="captureTap('blue')">
+        </div>
       </div>
 
     </div>
@@ -40,10 +60,11 @@ export default {
     return {
       longest: 0,
       sequence: ['red','blank', 'green','blank', 'yellow','blank', 'blue','blank'],
-      taps: [],
+      taps: '',
       lights: [ 'red', 'green', 'yellow', 'blue' ],
       isActive:false,
-      currentLight:""
+      currentLight:"",
+      iterationCounter:0
     }
   },
   computed: {
@@ -56,14 +77,14 @@ export default {
   methods: {
     
     start: function() {
-      //this.sequence = [];
+      //this.sequence = []; // will need to make active and reset sequence in the return to blank
       this.addToSequence();
       this.playSequence(this.sequence);
       this.startTimer();
     },
     chooseRandomLight: function() {
       var index = Math.floor(Math.random() * 4);
-      console.log(index);
+      //console.log(index);
       return this.lights[index];
     },
     addToSequence: function() {
@@ -74,15 +95,15 @@ export default {
       // might be cool to increase speed after certain levels are achieved
       // Such as decrease time by 250ms after 10 sequences
       var self=this;
-      console.log(this.sequence);
+      //console.log(this.sequence);
       
       lightSelected.forEach(function(el,index){
         setTimeout(function(){
           self.changeLightState(index);
 
-          console.log("inside timeOut: ",el);
+          //console.log("inside timeOut: ",el);
 
-        }, index*500);
+        }, index*400);
         self.isActive=false;
 
       });
@@ -92,13 +113,57 @@ export default {
 
     changeLightState: function(iteration){
       var self=this;
-      console.log('iteration: ',iteration);
-      console.log("currentColor: ",this.sequence[iteration]);
+      //console.log('iteration: ',iteration);
+      //console.log("currentColor: ",this.sequence[iteration]);
       this.isActive=true;
       this.currentLight=self.sequence[iteration]; 
       // self.isActive=false;
     },
-    captureTap: function() {
+    captureTap: function(color) {
+
+      this.taps=color;
+      
+
+      console.log("Sequence_color: ",this.sequence[this.iterationCounter]," Tapped_color: ",this.taps);
+      console.log("iterationCounter",this.iterationCounter);
+
+      if(this.sequence[this.iterationCounter]=== this.taps){
+        this.iterationCounter+=2;
+        
+      }else{
+        console.log("wrong Answer");
+      };
+
+      // this.addToSequence();
+      // this.playSequence(this.sequence);
+
+      
+
+      //  while(var i<this.sequence.length){
+
+      //   console.log("CaptureTap forloop: ",i);
+
+      //   console.log("thisTap: ",this.tap,"thisSequence[i]: ",this.sequence[i])
+      //   if(this.tap===this.sequence[i]){
+      //     i++;
+      //     console.log("CaptureTap forloop: ",i);
+      //     break;
+      //   }else{
+      //     console.log('Wrong Guess');
+
+      //   }
+      // }
+    
+      
+
+     
+      console.log(this.taps);
+      // log key strokes
+
+      // bring in sequence 
+      // compare key strokes to next sequence element
+
+
     },
     startTimer: function() {
     }
