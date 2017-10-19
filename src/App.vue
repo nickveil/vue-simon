@@ -81,6 +81,8 @@ export default {
       this.addToSequence();
       this.playSequence(this.sequence);
       this.startTimer();
+      this.iterationCounter=0;
+
     },
     chooseRandomLight: function() {
       var index = Math.floor(Math.random() * 4);
@@ -122,6 +124,7 @@ export default {
     captureTap: function(color) {
 
       this.taps=color;
+      this.currentLight=color;
       
 
       console.log("Sequence_color: ",this.sequence[this.iterationCounter]," Tapped_color: ",this.taps);
@@ -129,6 +132,9 @@ export default {
 
       if(this.sequence[this.iterationCounter]=== this.taps){
         this.iterationCounter+=2;
+        console.log("correct Answer");
+
+        
         
       }else{
         console.log("wrong Answer");
