@@ -66,7 +66,9 @@ export default {
       currentLight:"",
       iterationCounter:0,
       displayMessage:'',
-      buttonMessage:'Start'
+      buttonMessage:'Start',
+      disabled:true,
+      speed:400
     }
   },
   computed: {
@@ -87,6 +89,7 @@ export default {
       this.startTimer();
       this.iterationCounter=0;
       this.displayMessage='';
+      this.speed=400;
 
     },
     chooseRandomLight: function() {
@@ -95,15 +98,27 @@ export default {
     },
 
     addToSequence: function() {
+ 
       this.sequence.push(this.chooseRandomLight(),'blank');
       this.buttonMessage="Restart";
     },
 
     playSequence: function(lightSelected) {
+      clearTimeout();
+      if(this.sequence.length/2 > 5){
+        this.speed=300;
+        if(this.sequence.length/2 > 8){
+          this.speed=200;
+          if(this.sequence.length/2 > 10){
+            this.speed =100;
+          }
+        }
+      }
+
       var self=this; 
       lightSelected.forEach(function(el,index){
         setTimeout(function(){
-          self.changeLightState(index); }, index*400); self.isActive=false; });
+          self.changeLightState(index); }, index*self.speed); self.isActive=false; });
     },
 
     changeLightState: function(iteration){
@@ -113,18 +128,29 @@ export default {
       this.currentLight=self.sequence[iteration]; 
      
     },
-    captureTap: function(color) {
+    captureTap: function(color,time) {
 
       this.taps=color;
       this.currentLight=color;
+      console.log("captureTap_currentLight: ",this.currentLight)
+      setTimeout(function (){this.gameEvaluation(color)}.bind(this),200);
+      },
+
+    gameEvaluation:function(color){
+
+      
+
 
       if(this.sequence[this.iterationCounter]=== this.taps){
         this.iterationCounter+=2;
+        this.currentLight="blank";
+        console.log("gameEvaluation_currentLight: ",this.currentLight);
+        clearTimeout();
 
         if (this.iterationCounter===this.sequence.length){
           this.currentLight=false;
           this.addToSequence();
-          this.playSequence(this.sequence);
+          setTimeout(function(){this.playSequence(this.sequence)}.bind(this),2000);
           this.startTimer();
           this.iterationCounter=0;
         }
@@ -136,6 +162,7 @@ export default {
           this.longest=this.sequence.length/2;
           this.displayMessage="Sorry, not quite right. But hey, this is your longest sequence yet!";
           this.buttonMessage="Try Again";
+          clearTimeout();
         }else{
           this.currentLight=false;
           this.displayMessage="Sorry, not quite right. But you're close, give it another try.";
