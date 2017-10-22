@@ -5,8 +5,8 @@
 
     <div id="simon">
 
-      <div id="status">
-        ???
+      <div id="status" v-bind:src="displayMessage" >
+        {{displayMessage}}
       </div>
 
       <div class="row">
@@ -59,12 +59,13 @@ export default {
   data () {
     return {
       longest: 0,
-      sequence: ['red','blank', 'green','blank', 'yellow','blank', 'blue','blank'],
+      sequence: ['red','blank'],
       taps: '',
       lights: [ 'red', 'green', 'yellow', 'blue' ],
       isActive:false,
       currentLight:"",
-      iterationCounter:0
+      iterationCounter:0,
+      displayMessage:''
     }
   },
   computed: {
@@ -77,11 +78,12 @@ export default {
   methods: {
     
     start: function() {
-      //this.sequence = []; // will need to make active and reset sequence in the return to blank
+      this.sequence = []; // will need to make active and reset sequence in the return to blank
       this.addToSequence();
       this.playSequence(this.sequence);
       this.startTimer();
       this.iterationCounter=0;
+      this.displayMessage='';
 
     },
     chooseRandomLight: function() {
@@ -90,7 +92,9 @@ export default {
       return this.lights[index];
     },
     addToSequence: function() {
+      
       this.sequence.push(this.chooseRandomLight(),'blank');
+
       // this.sequence.push("blank");
     },
     playSequence: function(lightSelected) {
@@ -115,8 +119,8 @@ export default {
 
     changeLightState: function(iteration){
       var self=this;
-      //console.log('iteration: ',iteration);
-      //console.log("currentColor: ",this.sequence[iteration]);
+      console.log('iteration: ',iteration);
+      console.log("currentColor: ",this.sequence[iteration]);
       this.isActive=true;
       this.currentLight=self.sequence[iteration]; 
       // self.isActive=false;
@@ -133,36 +137,38 @@ export default {
       if(this.sequence[this.iterationCounter]=== this.taps){
         this.iterationCounter+=2;
         console.log("correct Answer");
+        console.log("this.iterationCounter: ",this.iterationCounter);
+        console.log("this.sequence[this.sequence.length-1]: ",this.sequence.length);
 
-        
-        
+        if (this.iterationCounter===this.sequence.length){
+          console.log("hello");
+          this.currentLight=false;
+          this.addToSequence();
+          this.playSequence(this.sequence);
+          this.startTimer();
+          this.iterationCounter=0;
+        }else{
+          
+
+
+        }
+
+
+
+       
       }else{
-        console.log("wrong Answer");
+        
+        if(this.sequence.length/2 > this.longest){
+          this.currentLight=false;
+          this.longest=this.sequence.length/2;
+          this.displayMessage="Congrats!!! This is your longest sequence yet!";
+        }else{
+          this.currentLight=false;
+          this.displayMessage="So close, try again.";
+        }
+
       };
 
-      // this.addToSequence();
-      // this.playSequence(this.sequence);
-
-      
-
-      //  while(var i<this.sequence.length){
-
-      //   console.log("CaptureTap forloop: ",i);
-
-      //   console.log("thisTap: ",this.tap,"thisSequence[i]: ",this.sequence[i])
-      //   if(this.tap===this.sequence[i]){
-      //     i++;
-      //     console.log("CaptureTap forloop: ",i);
-      //     break;
-      //   }else{
-      //     console.log('Wrong Guess');
-
-      //   }
-      // }
-    
-      
-
-     
       console.log(this.taps);
       // log key strokes
 
@@ -171,6 +177,8 @@ export default {
 
 
     },
+
+
     startTimer: function() {
     }
   }
