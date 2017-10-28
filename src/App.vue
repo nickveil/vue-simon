@@ -1,25 +1,25 @@
 <template>
   <div id="app">
 
-    <h1>Vuemon</h1>
+    <h1>Simon Memory Clone (Vue.js)</h1>
+    <div id="status">
+      {{displayMessage}}
+    </div>    
+      <div id="simon">
 
-    <div id="simon">
 
-      <div id="status">
-        {{displayMessage}}
-      </div>
 
       <div class="row">
         <div 
           id="green" 
           v-bind:class="{'bright':isActive && currentLight==='green'}" 
-          class="light col" 
+          class="light col noSelect" 
           v-on:click="captureTap('green')"> 
         </div>
         <div 
           id="red" 
           v-bind:class="{'bright':isActive && currentLight==='red'}" 
-          class="light col" 
+          class="light col noSelect" 
           v-on:click="captureTap('red')">
         </div>
       </div>
@@ -28,13 +28,13 @@
         <div 
           id="yellow" 
           v-bind:class="{'bright':isActive && currentLight==='yellow'}" 
-          class="light col" 
+          class="light col noSelect" 
           v-on:click="captureTap('yellow')">
         </div>
         <div 
           id="blue" 
           v-bind:class="{'bright':isActive && currentLight==='blue'}" 
-          class="light col" 
+          class="light col noSelect" 
           v-on:click="captureTap('blue')">
         </div>
       </div>
@@ -42,7 +42,7 @@
     </div>
 
     <div id="controls" class="row">
-      <div class="col"><button class="start" v-on:click="start" >{{ buttonMessage }}</button></div>
+      <div class="col"><button class="start mt-5" v-on:click="start" >{{ buttonMessage }}</button></div>
     </div>
 
     <div id="history">
@@ -105,12 +105,15 @@ export default {
 
     playSequence: function(lightSelected) {
       clearTimeout();
-      if(this.sequence.length/2 > 5){
-        this.speed=300;
-        if(this.sequence.length/2 > 8){
-          this.speed=200;
-          if(this.sequence.length/2 > 10){
-            this.speed =100;
+      if(this.sequence.length/2 > 4){
+        this.speed=350;
+        if(this.sequence.length/2 > 9){
+          this.speed=300;
+          if(this.sequence.length/2 > 14){
+            this.speed =250;
+            if(this.sequence.length/2 > 19){
+              this.speed =200;
+            }
           }
         }
       }
@@ -179,6 +182,18 @@ export default {
 </script>
 
 <style lang="scss">
+body {
+  background-color: #841617;
+
+}
+
+#simon{
+  background-color: white;
+  margin-bottom: 20px;
+  max-width: 480px;
+  margin:15px auto;
+}
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -188,7 +203,8 @@ export default {
   margin-top: 60px;
 }
 h1, h2 {
-  font-weight: normal;
+  font-weight: bold;
+  // color:white;
 }
 ul {
   list-style-type: none;
@@ -199,7 +215,7 @@ li {
   margin: 0 10px;
 }
 a {
-  color: #42b983;
+  color: white;
 }
 #simon {
   padding: 20px;
@@ -209,6 +225,7 @@ a {
 }
 #status {
   padding-bottom: 20px;
+  height: 20px;
 }
 .row {
 }
@@ -221,33 +238,50 @@ a {
 }
 .light {
   margin: 20px;
-  border: 1px solid #000;
+  // border: 1px solid #000;
 }
-#red {
-  height: 100px;
-  width: 100px;
-  background: #E53A40;
+#red { // changed to helmet
+  height: 150px;
+  width: 170px;
+  background-image: url(http://grfx.cstv.com/graphics/helmets/okla-helmet-right.png);
+  background-repeat:no-repeat;
+  background-size:170px 150px;
   opacity: 0.1;
 }
 #yellow {
-  height: 100px;
-  width: 100px;
-  background: #EFDC05;
+  height: 150px;
+  width: 170px;
+  background-image: url(https://images-na.ssl-images-amazon.com/images/I/51sKwImqmNL._SX355_.jpg);
+  background-repeat:no-repeat;
+  background-size:170px 150px;
   opacity: 0.1;
 }
-#green {
-  height: 100px;
-  width: 100px;
-  background: #75D701;
+#green { // changed to
+  height: 150px;
+  width: 170px;
+  background-image: url(http://www.soonersports.com/fls/31000/gold/images/gloves-800.jpg);
+  background-repeat:no-repeat;
+  background-size:170px 150px;
   opacity: 0.1;
 }
 #blue {
-  height: 100px;
-  width: 100px;
-  background: #30A9DE;
+  height: 150px;
+  width: 170px;
+  background-image: url(http://cdn.bleacherreport.net/images/team_logos/328x328/oklahoma_sooners.png);
+  background-repeat:no-repeat;
+  background-size:170px 150px;
   opacity: 0.1;
 }
 .bright {
   opacity: 1.0 !important;
 }
+.noSelect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 </style>
