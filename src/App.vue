@@ -5,10 +5,7 @@
     <div id="status">
       {{displayMessage}}
     </div>    
-      <div id="simon">
-
-
-
+    <div id="simon">
       <div class="row">
         <div 
           id="green" 
@@ -38,7 +35,6 @@
           v-on:click="captureTap('blue')">
         </div>
       </div>
-
     </div>
 
     <div id="controls" class="row">
@@ -183,7 +179,9 @@ export default {
 
 <style lang="scss">
 body {
-  background-color: #841617;
+  background-image: url("assets/Tight_ou_bkg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
 
 }
 
@@ -199,12 +197,12 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: white;
   margin-top: 60px;
 }
 h1, h2 {
   font-weight: bold;
-  // color:white;
+  color:white;
 }
 ul {
   list-style-type: none;
@@ -243,7 +241,7 @@ a {
 #red { // changed to helmet
   height: 150px;
   width: 170px;
-  background-image: url(http://grfx.cstv.com/graphics/helmets/okla-helmet-right.png);
+  background-image: url("assets/okla-helmet-right.png");
   background-repeat:no-repeat;
   background-size:170px 150px;
   opacity: 0.1;
@@ -251,7 +249,7 @@ a {
 #yellow {
   height: 150px;
   width: 170px;
-  background-image: url(https://images-na.ssl-images-amazon.com/images/I/51sKwImqmNL._SX355_.jpg);
+  background-image: url("assets/helmet_left.jpg");
   background-repeat:no-repeat;
   background-size:170px 150px;
   opacity: 0.1;
@@ -259,7 +257,7 @@ a {
 #green { // changed to
   height: 150px;
   width: 170px;
-  background-image: url(http://www.soonersports.com/fls/31000/gold/images/gloves-800.jpg);
+  background-image: url("assets/gloves-800.jpg");
   background-repeat:no-repeat;
   background-size:170px 150px;
   opacity: 0.1;
@@ -267,7 +265,7 @@ a {
 #blue {
   height: 150px;
   width: 170px;
-  background-image: url(http://cdn.bleacherreport.net/images/team_logos/328x328/oklahoma_sooners.png);
+  background-image: url("assets/oklahoma_sooners.png");
   background-repeat:no-repeat;
   background-size:170px 150px;
   opacity: 0.1;
