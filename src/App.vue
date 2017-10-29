@@ -1,7 +1,8 @@
 <template>
   <div id="app">
 
-    <h1>Simon Memory Clone (Vue.js)</h1>
+    <h1>OKLAHOMA THEMED</h1>
+    <h2> Simon Clone (Vue.js)</h2>
     <div id="status">
       {{displayMessage}}
     </div>    
@@ -65,6 +66,7 @@ export default {
       buttonMessage:'Start',
       disabled:true,
       speed:400
+
     }
   },
   computed: {
@@ -86,6 +88,7 @@ export default {
       this.iterationCounter=0;
       this.displayMessage='';
       this.speed=400;
+      
 
     },
     chooseRandomLight: function() {
@@ -131,7 +134,7 @@ export default {
 
       this.taps=color;
       this.currentLight=color;
-      console.log("captureTap_currentLight: ",this.currentLight)
+      //console.log("captureTap_currentLight: ",this.currentLight)
       setTimeout(function (){this.gameEvaluation(color)}.bind(this),200);
       },
 
@@ -143,7 +146,7 @@ export default {
       if(this.sequence[this.iterationCounter]=== this.taps){
         this.iterationCounter+=2;
         this.currentLight="blank";
-        console.log("gameEvaluation_currentLight: ",this.currentLight);
+        //console.log("gameEvaluation_currentLight: ",this.currentLight);
         clearTimeout();
 
         if (this.iterationCounter===this.sequence.length){
@@ -158,7 +161,7 @@ export default {
         
         if(this.sequence.length/2 > this.longest){
           this.currentLight=false;
-          this.longest=this.sequence.length/2;
+          this.longest=(this.sequence.length/2)-1;
           this.displayMessage="Sorry, not quite right. But hey, this is your longest sequence yet!";
           this.buttonMessage="Try Again";
           clearTimeout();
@@ -178,6 +181,10 @@ export default {
 </script>
 
 <style lang="scss">
+@font-face{
+  font-family: jerseyLetters;
+  src:url("/College Player_demo.otf");
+}
 body {
   background-image: url("assets/Tight_ou_bkg.jpg");
   background-size: cover;
@@ -200,9 +207,11 @@ body {
   color: white;
   margin-top: 60px;
 }
-h1, h2 {
-  font-weight: bold;
+h1 {
+  margin-bottom: 5px;
   color:white;
+  font-size: 80px;
+  font-family: jerseyLetters;
 }
 ul {
   list-style-type: none;
@@ -224,6 +233,7 @@ a {
 #status {
   padding-bottom: 20px;
   height: 20px;
+  font-size: 25px;
 }
 .row {
 }
